@@ -14,7 +14,7 @@ class HomeController extends PermissionService
     public function index()
     {
         return view('home', [
-            'role' => $this->getRole()
+            'permission' => $this->getRole()
         ]);
     }
 

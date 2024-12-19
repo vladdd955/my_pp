@@ -16,7 +16,7 @@
                         <div class="form-group mb-4">
                             <label for="assignPermission" class="block font-medium text-gray-800 dark:text-white">Permission</label>
                             <select name="permission" id="assignPermission" class="block w-full mt-1 bg-gray-700 text-white border-gray-600 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                @foreach ($role as $key => $value)
+                                @foreach ($permission as $key => $value)
                                     <option value="{{ $key }}" class="bg-gray-700 text-white">{{ $value }}</option>
                                 @endforeach
                             </select>
@@ -35,7 +35,7 @@
                         <div class="form-group mb-4">
                             <label for="removePermission" class="block font-medium text-gray-800 dark:text-white">Permission</label>
                             <select name="permission" id="removePermission" class="block w-full mt-1 bg-gray-700 text-white border-gray-600 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                @foreach ($role as $key => $value)
+                                @foreach ($permission as $key => $value)
                                     <option value="{{ $key }}" class="bg-gray-700 text-white">{{ $value }}</option>
                                 @endforeach
                             </select>
