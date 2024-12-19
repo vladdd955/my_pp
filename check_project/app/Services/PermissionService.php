@@ -4,6 +4,9 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Models\UserParam;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class PermissionService
 {
@@ -26,6 +29,14 @@ class PermissionService
         ];
     }
 
+    public function permissionValidate(Request $request): array
+    {
+        return $request->validate([
+            'permission' => [
+                'required', Rule::in(array_keys($this->getRole())),
+            ],
+        ]);
+    }
 
     public static function allowed($permission): bool
     {
@@ -116,12 +127,14 @@ class PermissionService
                 unset($role[$key]);
             }
 
+            $role = array_values($role);
             $role = json_encode($role);
+
             UserService::updateParam('user_role', $role, User::userId());
             $result['role'] = $role;
             $result['permission'] = $permission['permission'];
         } else {
-            $result['message'] = 'Do not have that permission ' . $permission['permission'];
+            $result['message'] = 'Do not have permission in user list' . $permission['permission'];
         }
 
         return $result;
