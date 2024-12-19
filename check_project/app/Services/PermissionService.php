@@ -108,6 +108,11 @@ class PermissionService
         $role = UserService::getParam('user_role', User::userId());
         $role = json_decode($role, true);
 
+        if (in_array($permission['permission'], $role)) {
+            $result['error'] = 'The user already has this permission';
+            return $result;
+        }
+
         $role[] = $permission['permission'];
         $role = json_encode($role);
         UserService::updateParam('user_role', $role, User::userId());

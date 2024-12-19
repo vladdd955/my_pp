@@ -27,13 +27,14 @@ class ApiRoleController extends PermissionService
     public function assignRole(Request $request)
     {
         try {
-            $permission = $request->validate([
-                'permission' => 'required',
-            ]);
-
+            $permission = $this->permissionValidate($request);
             $result = $this->addRole($permission);
 
-            return response()->json(['message' => $result['message'], 'currentUserRole' => $result['role']]);
+            if (!empty($result['error'])) {
+                return response()->json(['error' => $result['error']]);
+            }
+
+            return response()->json(['message' => $result['message'], 'currentUserRole' => $result['role'] ?? '']);
         } catch (\Exception $e) {
             Log::debug('Assign role request error', [$e->getMessage()]);
             return '400 ' . 'error: ' . $e->getMessage();
@@ -43,11 +44,9 @@ class ApiRoleController extends PermissionService
     public function removeRole(Request $request)
     {
         try {
-            $permission = $request->validate([
-                'permission' => 'required',
-            ]);
-
+            $permission = $this->permissionValidate($request);
             $result = $this->remRole($permission);
+
             if (!empty($result['message'])) return response()->json(['error' => $result['message']]);
 
             return response()->json([

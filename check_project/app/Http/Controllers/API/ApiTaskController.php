@@ -86,7 +86,7 @@ class ApiTaskController extends TaskService
             $task->save();
             return response()->json(['message' => 'Task Successfully updated', 'task' => $task]);
         } catch (\Exception $e) {
-            Log::debug('register request error', [$e->getMessage()]);
+            Log::debug('Api update request error', [$e->getMessage()]);
             return '400 ' . 'error: ' . $e->getMessage();
         }
     }
@@ -108,7 +108,7 @@ class ApiTaskController extends TaskService
 
             return response()->json(['message' => 'Task Successfully was closed', 'task' => $task]);
         } catch (\Exception $e) {
-            Log::debug('register request error', [$e->getMessage()]);
+            Log::debug('Api close request error', [$e->getMessage()]);
             return '400 ' . 'error: ' . $e->getMessage();
         }
     }

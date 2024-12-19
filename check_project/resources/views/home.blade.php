@@ -10,20 +10,16 @@
     <body>
     <div class="py-12 flex items-center justify-center">
         <div class="max-w-5xl w-full mx-auto sm:px-6 lg:px-8">
-
-            <!-- Assign Role Form -->
             <div class="dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6 text-gray-900 dark:text-dark-100">
                     <form id="assignRoleForm">
                         <div class="form-group mb-4">
                             <label for="assignPermission" class="block font-medium text-gray-800 dark:text-white">Permission</label>
                             <select name="permission" id="assignPermission" class="block w-full mt-1 bg-gray-700 text-white border-gray-600 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <!-- Permissions will be dynamically populated -->
+                                @foreach ($role as $key => $value)
+                                    <option value="{{ $key }}" class="bg-gray-700 text-white">{{ $value }}</option>
+                                @endforeach
                             </select>
-                        </div>
-                        <div class="form-group mb-4">
-                            <label for="assignUserId" class="block font-medium text-gray-800 dark:text-white">User ID</label>
-                            <input type="text" name="user_id" id="assignUserId" class="block w-full mt-1 bg-gray-700 text-white border-gray-600 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Enter User ID">
                         </div>
                         <div class="flex justify-end">
                             <button type="button" id="assignRoleButton" class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded" onclick="ConfirmRole()">Confirm</button>
@@ -39,15 +35,13 @@
                         <div class="form-group mb-4">
                             <label for="removePermission" class="block font-medium text-gray-800 dark:text-white">Permission</label>
                             <select name="permission" id="removePermission" class="block w-full mt-1 bg-gray-700 text-white border-gray-600 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <!-- Permissions will be dynamically populated -->
+                                @foreach ($role as $key => $value)
+                                    <option value="{{ $key }}" class="bg-gray-700 text-white">{{ $value }}</option>
+                                @endforeach
                             </select>
                         </div>
-                        <div class="form-group mb-4">
-                            <label for="removeUserId" class="block font-medium text-gray-800 dark:text-white">User ID</label>
-                            <input type="text" name="user_id" id="removeUserId" class="block w-full mt-1 bg-gray-700 text-white border-gray-600 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Enter User ID">
-                        </div>
                         <div class="flex justify-end">
-                            <button type="button" id="removeRoleButton" class="btn btn-danger bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+                            <button type="button" id="removeRoleButton" class="btn btn-danger bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="DeleteRole()">Delete</button>
                         </div>
                     </form>
                 </div>
@@ -60,20 +54,40 @@
     <script>
 
         function ConfirmRole() {
-            let assignPermission = $('#assignPermission').val(),
-                assignUserId = $('#newUserIdInput').val();
+            let assignPermission = $('#assignPermission').val();
 
             $.ajax({
                 type: 'POST',
                 url: '{{ route('confirmRole') }}',
                 data: {
                     '_token': $('meta[name="csrf-token"]').attr('content'),
-                    'assignPermission': assignPermission,
-                    'assignUserId': assignUserId
+                    'permission': assignPermission,
+
                 },
                 success: function(response) {
                     console.log(response);
-                    window.location.reload()
+                    // window.location.reload()
+
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error: ' + error);
+                }
+            });
+        }
+
+        function DeleteRole() {
+            let removePermission = $('#removePermission').val();
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('deleteRole') }}',
+                data: {
+                    '_token': $('meta[name="csrf-token"]').attr('content'),
+                    'permission': removePermission,
+                },
+                success: function(response) {
+                    console.log(response);
+                    // window.location.reload()
 
                 },
                 error: function(xhr, status, error) {
