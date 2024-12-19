@@ -49,13 +49,8 @@ class HomeController extends PermissionService
                 abort(404);
             }
 
-            Log::debug('confirm funx');
-            Log::debug($request);
-
             $permission = $this->permissionValidate($request);
             $result = $this->remRole($permission);
-
-            Log::debug($result);
 
             if (!empty($result)) {
                 return response()->json(['message' => $result['message'] ?? '', 'currentUserRole' => $result['role'] ?? '']);
@@ -63,6 +58,24 @@ class HomeController extends PermissionService
             return response()->json(['error' => 'Result is empty']);
         } catch (\Throwable $e) {
             return response()->json(['error' => 'Delete role error']);
+        }
+    }
+
+    public function userRole(Request $request): JsonResponse
+    {
+        try {
+            if (!$request->ajax()) {
+                abort(404);
+            }
+            $userRole = UserService::userRole();
+            $userRole = json_decode(json_encode($userRole), true);
+
+            if (!empty($userRole)) {
+                return response()->json(['message' => $userRole]);
+            }
+            return response()->json(['error' => 'Result is empty']);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => 'User role show error']);
         }
     }
 

@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/confirmRole', [HomeController::class, 'confirmRole'])->name('confirmRole');
     Route::post('/deleteRole', [HomeController::class, 'deleteRole'])->name('deleteRole');
-    Route::get('/showRole', [HomeController::class, 'showRole'])->name('showRole');
+    Route::get('/showRole', [HomeController::class, 'userRole'])->name('userRole');
 
 
 });

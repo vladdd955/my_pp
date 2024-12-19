@@ -9,6 +9,16 @@
     <body>
     <div class="py-12 flex items-center justify-center">
         <div class="max-w-5xl w-full mx-auto sm:px-6 lg:px-8">
+
+            <div class="dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6">
+                <div class="p-6 text-gray-900 dark:text-dark-100">
+                    <div class="flex justify-between items-center">
+                        <button type="button" id="getUserRoleButton" class="btn btn-info bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="userRole()">Get User Role</button>
+                    </div>
+                    <div id="userRole" class="mt-4 text-sm text-center"></div>
+                </div>
+            </div>
+
             <div class="dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6 text-gray-900 dark:text-dark-100">
                     <form id="assignRoleForm">
@@ -97,6 +107,32 @@
                         $(`#deleteResponse`).text(response.message).addClass('text-green-600');
                     } else if (response['error']) {
                         $(`#deleteResponse`).text(response.error).addClass('text-red-600');
+
+                    }
+
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error: ' + error);
+                }
+            });
+        }
+
+        function userRole() {
+            let removePermission = $('#removePermission').val();
+
+            $.ajax({
+                type: 'GET',
+                url: '{{ route('userRole') }}',
+                data: {
+                    '_token': $('meta[name="csrf-token"]').attr('content'),
+                    // 'permission': removePermission,
+                },
+                success: function(response) { deleteResponse
+                    console.log(response);
+                    if (response['message']) {
+                        $(`#userRole`).text(response.message).addClass('text-green-600');
+                    } else if (response['error']) {
+                        $(`#userRole`).text(response.error).addClass('text-red-600');
 
                     }
 
