@@ -2,37 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\PermissionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-class HomeController extends Controller
+class HomeController extends PermissionService
 {
 
     public function index()
     {
 
-        $tt = $this->testFunc(['fff', 'testCase', 'secondCase'], 0);
-
-        return view('home', ['tt' => $tt]);
+        return view('home', []);
     }
 
 
-    public function testFunc(array $array, int $count): array
+    public function confirmRole(Request $request)
     {
-        $newArr = [];
-        if (!empty($array)) {
-            foreach ($array as $key => $val) {
-                if (in_array($key, ['testCase', 'secondCase'])) {
-                    $newArr[$key] = [
-                        $key => $val,
-                    ];
-                    $count++;
-                }
-            }
-            $newArr['count'] = $count;
+        if (!$request->ajax()) {
+            abort(404);
         }
-        return $newArr;
+
+//        $this->addRole();
+
     }
 
 }

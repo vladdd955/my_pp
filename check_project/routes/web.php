@@ -37,6 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/updateTask', [TaskService::class, 'updateTask'])->name('updateTask');
 
 
+    Route::post('/updateTask', [HomeController::class, 'confirmRole'])->name('confirmRole');
+
+
 });
 
 require __DIR__.'/auth.php';

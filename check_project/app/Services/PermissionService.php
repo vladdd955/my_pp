@@ -69,4 +69,62 @@ class PermissionService
         ]);
     }
 
+    protected function addRole(array $permission): array
+    {
+        $message = 'Success';
+
+        switch ($permission['permission']) {
+            case self::GOD_MOD_ROLE:
+                $message .= ' Access granted for GOD_MOD_ROLE';
+                break;
+            case self::CLOSE_TASK_BUTTON;
+                $message .= ' Access granted for close task';
+                break;
+            case self::UPDATE_TASK_BUTTON;
+                $message .= ' Access granted for update task';
+                break;
+            case self::SHOW_ALL_TASK;
+                $message .= ' Access granted for create show all task';
+                break;
+            case self::MANAGER;
+                $message .= ' Access granted for create basic manager';
+                break;
+            default:
+                $message .= ' Access granted for create basic manager';
+        }
+
+        $result['message'] = $message;
+        $role = UserService::getParam('user_role', User::userId());
+        $role = json_decode($role, true);
+
+        $role[] = $permission['permission'];
+        $role = json_encode($role);
+        UserService::updateParam('user_role', $role, User::userId());
+        $result['role'] = $role;
+
+        return $result;
+    }
+
+    protected function remRole(array $permission): array
+    {
+        $role = UserService::getParam('user_role', User::userId());
+        $role = json_decode($role, true);
+
+        if (in_array($permission['permission'], $role)) {
+            $key = array_search($permission['permission'], $role);
+            if ($key !== false) {
+                unset($role[$key]);
+            }
+
+            $role = json_encode($role);
+            UserService::updateParam('user_role', $role, User::userId());
+            $result['role'] = $role;
+            $result['permission'] = $permission['permission'];
+        } else {
+            $result['message'] = 'Do not have that permission ' . $permission['permission'];
+        }
+
+        return $result;
+    }
+
 }
