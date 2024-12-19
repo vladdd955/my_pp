@@ -1,5 +1,4 @@
 <x-app-layout>
-    <!-- resources/views/home.blade.php -->
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -24,6 +23,7 @@
                         <div class="flex justify-end">
                             <button type="button" id="assignRoleButton" class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded" onclick="ConfirmRole()">Confirm</button>
                         </div>
+                        <div id="assignResponse" class="mt-4 text-sm text-center"></div>
                     </form>
                 </div>
             </div>
@@ -43,6 +43,7 @@
                         <div class="flex justify-end">
                             <button type="button" id="removeRoleButton" class="btn btn-danger bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="DeleteRole()">Delete</button>
                         </div>
+                        <div id="deleteResponse" class="mt-4 text-sm text-center"></div>
                     </form>
                 </div>
             </div>
@@ -65,8 +66,13 @@
 
                 },
                 success: function(response) {
-                    console.log(response);
-                    // window.location.reload()
+                    console.log(response['message']);
+                    if (response['message']) {
+                        $(`#assignResponse`).text(response.message).addClass('text-green-600');
+                    } else if (response['error']) {
+                        $(`#assignResponse`).text(response.error).addClass('text-red-600');
+
+                    }
 
                 },
                 error: function(xhr, status, error) {
@@ -85,9 +91,14 @@
                     '_token': $('meta[name="csrf-token"]').attr('content'),
                     'permission': removePermission,
                 },
-                success: function(response) {
+                success: function(response) { deleteResponse
                     console.log(response);
-                    // window.location.reload()
+                    if (response['message']) {
+                        $(`#deleteResponse`).text(response.message).addClass('text-green-600');
+                    } else if (response['error']) {
+                        $(`#deleteResponse`).text(response.error).addClass('text-red-600');
+
+                    }
 
                 },
                 error: function(xhr, status, error) {

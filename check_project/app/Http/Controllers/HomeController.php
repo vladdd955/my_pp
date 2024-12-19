@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\PermissionService;
+use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,9 +25,6 @@ class HomeController extends PermissionService
             if (!$request->ajax()) {
                 abort(404);
             }
-
-            Log::debug('confirm funx');
-            Log::debug($request);
 
             $permission = $this->permissionValidate($request);
             $result = $this->addRole($permission);
@@ -60,7 +58,7 @@ class HomeController extends PermissionService
             Log::debug($result);
 
             if (!empty($result)) {
-                return response()->json(['message' => $result['message'], 'currentUserRole' => $result['role'] ?? '']);
+                return response()->json(['message' => $result['message'] ?? '', 'currentUserRole' => $result['role'] ?? '']);
             }
             return response()->json(['error' => 'Result is empty']);
         } catch (\Throwable $e) {

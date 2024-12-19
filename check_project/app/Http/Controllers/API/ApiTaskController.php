@@ -76,6 +76,7 @@ class ApiTaskController extends TaskService
             ]);
 
             $task = $this->getTaskForUpdate($updateTask);
+
             if (!$task) return response()->json(['error' => 'Permission denied']);
             if (empty($task)) return response()->json(['error' => 'Task not found']);
 
@@ -100,6 +101,7 @@ class ApiTaskController extends TaskService
             ]);
 
             $task = $this->getTaskForUpdate($closeTask, true);
+
             if (!$task) return response()->json(['error' => 'Permission denied']);
             if (empty($task)) return response()->json(['error' => 'Task not found']);
 

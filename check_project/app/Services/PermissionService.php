@@ -138,8 +138,9 @@ class PermissionService
             UserService::updateParam('user_role', $role, User::userId());
             $result['role'] = $role;
             $result['permission'] = $permission['permission'];
+            $result['message'] = 'Success remove ' . $permission['permission'];
         } else {
-            $result['message'] = 'Do not have permission in user list' . $permission['permission'];
+            $result['error'] = 'Do not have permission in user list ' . $permission['permission'];
         }
 
         return $result;
