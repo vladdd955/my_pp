@@ -14,3 +14,5 @@
 ```php artisan migrate```
 
 ```php artisan serve``` запуск проекта в веб-режиме
+
+```postman_import_file``` раскладку для теста API, отправил с таском.
