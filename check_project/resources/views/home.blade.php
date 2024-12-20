@@ -117,14 +117,11 @@
         }
 
         function userRole() {
-            let removePermission = $('#removePermission').val();
-
             $.ajax({
                 type: 'GET',
                 url: '{{ route('userRole') }}',
                 data: {
                     '_token': $('meta[name="csrf-token"]').attr('content'),
-                    // 'permission': removePermission,
                 },
                 success: function(response) { deleteResponse
                     console.log(response);
