@@ -25,14 +25,12 @@ class ApiLoginController extends Controller
                 $user->api_token = hash('sha256', $token);
                 $user->save();
 
-                Log::debug('I AM HERE API TEST');
-
                 return response()->json(['code'=> 200, 'message' => 'Successfully logged in', 'token' => $user->api_token]);
             }
 
             return response()->json(['code'=> 400, 'message' => 'Invalid credentials']);
         } catch (\Exception $e) {
-            Log::debug('login request error', [$e->getMessage()]);
+            Log::debug('Login request error', [$e->getMessage()]);
             return '803 ' . 'error: ' . $e->getMessage();
         }
     }

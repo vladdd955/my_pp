@@ -37,32 +37,31 @@
         </div>
     </div>
 
-    <!-- Модальное окно в тёмной теме -->
     <div class="modal fade" id="updateTaskModal" tabindex="-1" aria-labelledby="updateTaskModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content dark:bg-gray-800 dark:text-white">
-                <div class="modal-header">
+                <div class="modal-header bg-dark dark:text-white">
                     <h5 class="modal-title" id="updateTaskModalLabel">Update Task</h5>
-                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body bg-dark dark:text-white">
                     <input type="hidden" id="taskIdInput">
                     <label for="newStatusInput" class="form-label">New Status:</label>
-                    <select class="form-select bg-gray-700 text-white border-gray-600 dark:bg-gray-700 dark:border-gray-600" id="newStatusInput">
+                    <select class="block w-full mt-1 bg-gray-700 text-white border-gray-600 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="newStatusInput">
                         @foreach($taskStatus as $status)
                             <option value="{{ $status }}">{{ $status }}</option>
                         @endforeach
                     </select>
 
-                    <input class="block w-full mt-1 bg-gray-700 text-white border-gray-600 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" type="hidden" id="userIdInput">
+                    <input type="hidden" id="userIdInput">
                     <label for="newUserIdInput" class="form-label">Chose User:</label>
-                    <select class="form-select bg-gray-700 text-white border-gray-600 dark:bg-gray-700 dark:border-gray-600" id="newUserIdInput">
+                    <select class="block w-full mt-1 bg-gray-700 text-white border-gray-600 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="newUserIdInput">
                         @foreach($usersList as $user)
                             <option value="{{ $user['id'] }}">{{ 'User id: '.$user['id'].' ('.$user['name'].')' }}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer bg-dark dark:text-white">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" onclick="updateTask()">Save changes</button>
                 </div>

@@ -6,7 +6,6 @@ use App\Models\Task;
 use App\Models\User;
 use App\Services\PermissionService;
 use App\Services\TaskService;
-use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

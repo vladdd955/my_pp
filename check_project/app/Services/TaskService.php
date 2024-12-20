@@ -70,7 +70,6 @@ class TaskService
         $permission = PermissionService::allowed(PermissionService::UPDATE_TASK_BUTTON);
         if (!$permission) return response()->json(['error' => 'Permission denied']);
 
-        Log::debug($request);
         $task = Task::find($request->input('taskId'));
         $user = User::userId();
 
@@ -78,7 +77,6 @@ class TaskService
             $task->status = $request->input('newStatus');
             $task->user_id = $request->input('userId');
 
-            Log::debug($task);
             $task->save();
             return response()->json(['message' => 'Task update successfully']);
         } else {
