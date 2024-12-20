@@ -1,6 +1,8 @@
 # my_pp
 
 # Стандартные команды для работы с проектом
+```git clone https://github.com/vladdd955/my_pp.git```
+
 ```composer install```
 
 ```npm install```
