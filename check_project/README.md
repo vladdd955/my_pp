@@ -1,15 +1,14 @@
-git clone <URL repo>
+# my_pp
 
-After clone project run command
+# Стандартные команды для работы с проектом
+```composer install```
 
-composer install
+```npm install```
 
-npm install
+```npm install laravel```
 
-npm install laravel
+```npm run dev```
 
-npm run dev
+```php artisan migrate```
 
-php artisan migrate
-
-php artisan serve
+```php artisan serve``` запуск проекта в веб-режиме
