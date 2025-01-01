@@ -34,7 +34,6 @@
             <x-input-label for="language" :value="__('Language')" />
             <select id="language" name="language" class="block w-full mt-1 bg-gray-700 text-white border-gray-600 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                 <option value="" disabled selected>{{ __('Select your language') }}</option>
-{{--                    <option value="{{$value['country']}}">{{$value['country']}}</option>--}}
             </select>
             <x-input-error :messages="$errors->get('country')" class="mt-2" />
         </div>

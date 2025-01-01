@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\ApiCountriesAndLanguages;
 use App\Http\Controllers\API\ApiLoginController;
 use App\Http\Controllers\API\ApiLogoutController;
 use App\Http\Controllers\API\ApiRegistrationController;
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [ApiRegistrationController::class, 'register']);
 Route::post('/login', [ApiLoginController::class, 'login']);
+Route::get('/getCountriesAndLanguages', [ApiCountriesAndLanguages::class, 'getCountriesAndLanguages']);
+
 
 Route::middleware('auth:sanctum')->get('/logout', [ApiLogoutController::class, 'logout']);
 Route::middleware('auth:sanctum')->get('/testUser', [ApiUserIsLoggedInController::class, 'testUser']);

@@ -13,10 +13,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
-use Illuminate\Support\Str;
 
 class RegisteredUserController extends Controller
 {
@@ -28,7 +26,7 @@ class RegisteredUserController extends Controller
         $jsonData = file_get_contents(storage_path() . '/json/countries.json');
         $countries = json_decode($jsonData, true);
 
-        return view('auth.register' , [
+        return view('auth.register', [
             'countries' => $countries,
         ]);
     }
@@ -42,6 +40,7 @@ class RegisteredUserController extends Controller
     {
         $this->registerValidate($request);
         $user = $this->userReg($request);
+        if (!empty($user['Error'])) return abort(404, $user['Error']);
 
         event(new Registered($user));
         Auth::login($user);
@@ -63,7 +62,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'country' => ['required', 'string', 'max:255'],
             'language' => ['required', 'string', 'max:255'],
@@ -77,6 +76,9 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ];
+
+        $countryLangValidate = $this->validateCountryAndLanguages($request);
+        if (!empty($countryLangValidate['Error'])) return $countryLangValidate;
 
         // check
         if ($isApi) {
@@ -111,5 +113,24 @@ class RegisteredUserController extends Controller
         } catch (\Throwable $e) {
             return response()->json(['error' => 'Country language show error']);
         }
+    }
+
+    public function validateCountryAndLanguages(Request $request): array|bool
+    {
+        $jsonData = file_get_contents(storage_path() . '/json/countries.json');
+        $countries = json_decode($jsonData, true);
+        $countryData = collect($countries)->firstWhere('country', $request->country);
+
+        if (is_null($countryData) || $countryData['country'] != $request->country) {
+            return ['Error' => 'Invalid Country'];
+        }
+
+        $languageExists = in_array($request->language, $countryData['languages']);
+
+        if (!$languageExists) {
+            return ['Error' => 'Invalid Language'];
+        }
+
+        return true;
     }
 }

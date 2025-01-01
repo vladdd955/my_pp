@@ -18,6 +18,8 @@ class ApiRegistrationController extends Controller
     {
         try {
             $user = (new RegisteredUserController())->apiRegister($request);
+            if ($user['Error']) return response()->json(['message' => $user['Error']], 400);
+
             event(new Registered($user));
 
             Auth::login($user);
