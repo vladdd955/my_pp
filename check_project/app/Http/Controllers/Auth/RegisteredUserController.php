@@ -44,8 +44,10 @@ class RegisteredUserController extends Controller
         $user = $this->userReg($request);
 
         event(new Registered($user));
-
         Auth::login($user);
+
+        UserService::updateParam('country', $request->country, User::userId());
+        UserService::updateParam('language', $request->language, User::userId());
 
         PermissionService::createProcess('manager');
         return redirect(RouteServiceProvider::HOME);
@@ -59,12 +61,12 @@ class RegisteredUserController extends Controller
 
     public function registerValidate(Request $request): void
     {
-
-        //must write new valid for country
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'country' => ['required', 'string', 'max:255'],
+            'language' => ['required', 'string', 'max:255'],
         ]);
     }
 
@@ -76,9 +78,9 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ];
 
-        // need I am or not, cause have Sanctum token now.
+        // check
         if ($isApi) {
-            $userData['api_token'] = Str::random(60);
+//            $userData['api_token'] = Str::random(60);
         }
 
         return User::create($userData);
