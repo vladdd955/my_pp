@@ -16,6 +16,30 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
+        <!-- Country -->
+        <div class="mt-4">
+            <x-input-label for="country" :value="__('Country')" />
+            <select id="country" name="country" class="block w-full mt-1 bg-gray-700 text-white border-gray-600 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required
+                    onchange="getCountryLanguage()">
+                <option value="" disabled selected>{{ __('Select your country') }}</option>
+                @foreach($countries as $value)
+                    <option value="{{$value['country']}}">{{$value['country']}}</option>
+                @endforeach
+            </select>
+            <x-input-error :messages="$errors->get('country')" class="mt-2" />
+        </div>
+
+        <!-- Language -->
+        <div class="mt-4">
+            <x-input-label for="language" :value="__('Language')" />
+            <select id="language" name="language" class="block w-full mt-1 bg-gray-700 text-white border-gray-600 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                <option value="" disabled selected>{{ __('Select your language') }}</option>
+{{--                    <option value="{{$value['country']}}">{{$value['country']}}</option>--}}
+            </select>
+            <x-input-error :messages="$errors->get('country')" class="mt-2" />
+        </div>
+
+
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
@@ -50,3 +74,45 @@
         </div>
     </form>
 </x-guest-layout>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    function getCountryLanguage() {
+        let country = $('#country').val();
+
+        console.log(country)
+
+        $.ajax({
+            type: 'POST',
+            url: '{{ route('getCountryJson') }}',
+            data: {
+                '_token': $('meta[name="csrf-token"]').attr('content'),
+                'country': country,
+
+            },
+            success: function (response) {
+                console.log(response);
+
+                let languageSelect = $('#language');
+                languageSelect.empty();
+
+                languageSelect.append('<option value="" disabled selected>{{ __('Select your language') }}</option>');
+
+                if (response.success && response.languages) {
+                    response.languages.forEach(function(language) {
+                        languageSelect.append(`<option value="${language}">${language}</option>`);
+                    });
+                } else {
+                    languageSelect.append('<option value="" disabled>{{ __('No languages available') }}</option>');
+                }
+
+            },
+            error: function (xhr, status, error) {
+                console.error('Error: ' + error);
+            }
+        });
+    }
+
+
+</script>

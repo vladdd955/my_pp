@@ -12,8 +12,11 @@ class ApiLogoutController extends Controller
     public function logout(): JsonResponse
     {
         $user = Auth::user();
-        $user->api_token = null;
-        $user->save();
+
+//        $user->api_token = null;
+//        $user->save();
+
+        $user->currentAccessToken()->delete();
         return response()->json(['code' => 200, 'message' => 'Successfully logged out']);
     }
 }

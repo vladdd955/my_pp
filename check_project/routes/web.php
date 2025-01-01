@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AllTaskController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\ProfileController;
@@ -41,7 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/deleteRole', [HomeController::class, 'deleteRole'])->name('deleteRole');
     Route::get('/showRole', [HomeController::class, 'userRole'])->name('userRole');
 
-
 });
+
+Route::post('/getCountryJson', [RegisteredUserController::class, 'getCountryJson'])->name('getCountryJson');
 
 require __DIR__.'/auth.php';

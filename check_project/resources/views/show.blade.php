@@ -100,7 +100,6 @@
     $(document).ready(function() {
         $('#updateTask').click(function() {
 
-            console.log('ggggg')
             openUpdateModel();
         });
     });
@@ -133,7 +132,7 @@
 
     function openUpdateModel() {
         let taskId = $('#updateTask').data('task-id');
-        console.log('ddddddddd')
+
         $('#taskIdInput').val(taskId);
         $('#updateTaskModal').modal('show');
     }
