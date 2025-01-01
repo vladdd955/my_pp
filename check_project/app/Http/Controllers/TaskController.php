@@ -44,7 +44,8 @@ class TaskController extends TaskService
             'task' => $task,
             'taskStatus' => $taskStatus,
             'usersList' => $usersList,
-            'allowedCloseButton' => $allowedCloseButton
+            'allowedCloseButton' => $allowedCloseButton,
+            'taskDescription' => $task->description,
         ]);
     }
 

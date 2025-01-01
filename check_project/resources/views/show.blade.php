@@ -60,6 +60,15 @@
                             <option value="{{ $user['id'] }}">{{ 'User id: '.$user['id'].' ('.$user['name'].')' }}</option>
                         @endforeach
                     </select>
+
+                    <div class="form-group mb-4">
+                        <label for="ModalTaskDescription" class="block font-medium text-gray-800 dark:text-gray-200">Task Description:</label>
+                        <textarea name="ModalTaskDescription" id="ModalTaskDescription" rows="4" class="block w-full mt-1 bg-gray-700 text-white border-gray-600 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Enter task description">{{ $taskDescription }}</textarea>
+                        @if ($errors->has('ModalTaskDescription'))
+                            <span class="text-red-600 text-sm">{{ $errors->first('description') }}</span>
+                        @endif
+                    </div>
+
                 </div>
                 <div class="modal-footer bg-dark dark:text-white">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -105,9 +114,10 @@
     });
 
     function updateTask() {
-        let taskId = $('#taskIdInput').val();
-        let newStatus = $('#newStatusInput').val();
-        let userId = $('#newUserIdInput').val();
+        let taskId = $('#taskIdInput').val(),
+            newStatus = $('#newStatusInput').val(),
+            userId = $('#newUserIdInput').val(),
+            modalTaskDescription = $('#ModalTaskDescription').val();
 
         $.ajax({
             type: 'POST',
@@ -116,7 +126,8 @@
                 '_token': $('meta[name="csrf-token"]').attr('content'),
                 'taskId': taskId,
                 'newStatus': newStatus,
-                'userId': userId
+                'userId': userId,
+                'modalTaskDescription': modalTaskDescription,
             },
             success: function(response) {
                 console.log(response);

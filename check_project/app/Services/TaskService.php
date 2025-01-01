@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class TaskService
 {
@@ -67,6 +66,12 @@ class TaskService
 
     public function updateTask(Request $request): JsonResponse
     {
+        $request->validate([
+            'newStatus' => 'string',
+            'modalTaskDescription' => 'string',
+            'userId' => 'required|int',
+        ]);
+
         $permission = PermissionService::allowed(PermissionService::UPDATE_TASK_BUTTON);
         if (!$permission) return response()->json(['error' => 'Permission denied']);
 
@@ -76,6 +81,7 @@ class TaskService
         if ($task && $user) {
             $task->status = $request->input('newStatus');
             $task->user_id = $request->input('userId');
+            $task->description = $request->input('modalTaskDescription');
 
             $task->save();
             return response()->json(['message' => 'Task update successfully']);

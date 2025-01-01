@@ -22,6 +22,7 @@
             <div class="dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6 text-gray-900 dark:text-dark-100">
                     <form id="assignRoleForm">
+                        @csrf
                         <div class="form-group mb-4">
                             <label for="assignPermission" class="block font-medium text-gray-800 dark:text-white">Permission</label>
                             <select name="permission" id="assignPermission" class="block w-full mt-1 bg-gray-700 text-white border-gray-600 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
@@ -41,6 +42,7 @@
             <div class="dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-dark-100">
                     <form id="removeRoleForm">
+                        @csrf
                         <div class="form-group mb-4">
                             <label for="removePermission" class="block font-medium text-gray-800 dark:text-white">Permission</label>
                             <select name="permission" id="removePermission" class="block w-full mt-1 bg-gray-700 text-white border-gray-600 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">

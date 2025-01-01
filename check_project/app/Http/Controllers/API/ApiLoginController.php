@@ -22,10 +22,6 @@ class ApiLoginController extends Controller
                 $user = Auth::user();
                 Auth::login($user, true);
 
-
-//                $token = Str::random(60);
-//                $user->api_token = hash('sha256', $token);
-//                $user->save();
                 $token = $user->createToken('API Token')->plainTextToken;
 
                 return response()->json(['code'=> 200, 'message' => 'Successfully logged in', 'token' => $token]);

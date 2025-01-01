@@ -80,11 +80,6 @@ class RegisteredUserController extends Controller
         $countryLangValidate = $this->validateCountryAndLanguages($request);
         if (!empty($countryLangValidate['Error'])) return $countryLangValidate;
 
-        // check
-        if ($isApi) {
-//            $userData['api_token'] = Str::random(60);
-        }
-
         return User::create($userData);
     }
 
