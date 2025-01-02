@@ -27,11 +27,6 @@ class PasswordResetLinkController extends Controller
     public function store(Request $request): RedirectResponse
     {
 
-        Log::debug($request->input('email'));
-
-        // here make changes for email reset password!
-
-
         $request->validate([
             'email' => ['required', 'email'],
         ]);
